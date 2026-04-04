@@ -30,4 +30,5 @@ EXPOSE 8000
 
 # Start Laravel
 # CMD php artisan serve --host=0.0.0.0 --port=$PORT
-CMD php -S 0.0.0.0:$PORT -t public
+# CMD php -S 0.0.0.0:$PORT -t public
+CMD sh -c "php -S 0.0.0.0:${PORT:-8080} -t public"
