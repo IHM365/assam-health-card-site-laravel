@@ -1,17 +1,18 @@
 FROM php:8.2-apache
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libpng-dev \
-    libonig-dev \
-    libxml2-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     zip \
     unzip \
     git \
     curl
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql gd
+# Install PHP extensions (GD FIXED)
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql gd
 
 # Enable Apache rewrite
 RUN a2enmod rewrite
@@ -22,7 +23,7 @@ WORKDIR /var/www/html
 # Copy project
 COPY . .
 
-# Install composer
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install Laravel dependencies
