@@ -15,6 +15,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql gd
 
 # Enable Apache rewrite
+RUN a2dismod mpm_event && a2enmod mpm_prefork
 RUN a2enmod rewrite
 
 # Set working directory
